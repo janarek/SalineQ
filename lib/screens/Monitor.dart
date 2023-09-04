@@ -1,10 +1,50 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart';
 
 import 'Home.dart';
 import 'Maintenance.dart';
 import 'Notifications.dart';
 import 'Settings.dart';
+
+class Monitor extends StatelessWidget {
+  const Monitor({Key? key}) : super(key: key);
+
+  Stream<Map<String, dynamic>> getData() async* {
+    while (true) {
+      Response response = await get(Uri(
+          scheme: "http", host: '10.0.2.2', port: 5000, path: "/getHomeData"));
+      Map body = json.decode(response.body);
+      Map<String, dynamic> data =
+          body.map<String, dynamic>((key, value) => MapEntry("$key", value));
+      yield data;
+      await Future.delayed(const Duration(seconds: 7));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: getData(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState != ConnectionState.active) {
+            // Return what ur user sees when loading
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            // Return what ur user sees when an error occurs
+            return Center(
+                child: Text("Something went wrong. ${snapshot.error}"));
+          } else if (snapshot.hasData) {
+            // Return ur screen
+            return HomePage();
+          } else {
+            return Text('No Data found');
+          }
+        });
+  }
+}
 
 class MonitorPage extends StatefulWidget {
   const MonitorPage({ Key? key }) : super(key: key);

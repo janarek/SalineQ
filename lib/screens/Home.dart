@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'Controls.dart';
 import 'Maintenance.dart';
@@ -46,6 +47,12 @@ class Home extends StatelessWidget {
   }
 }
 
+class C02E {
+  C02E(this.time, this.c02e );
+  final double c02e;
+  final String time;
+}
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -54,6 +61,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,8 +84,67 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Color.fromARGB(205, 60, 60, 60),
       ),
       body: Container(
+        margin: const EdgeInsets.only(top: 50, bottom: 50),
         child: Column(
           children: [
+            const Text('Current CO2e',
+              style: TextStyle(
+                fontSize: 22,
+                color: Color.fromARGB(255, 43, 108, 79)
+              )
+            ),
+            // LINE CHART
+            Container(
+              width: 350,
+              margin: const EdgeInsets.only(top: 20, bottom: 20),
+              child: SfCartesianChart(
+                primaryXAxis: CategoryAxis(),
+                palette: const <Color>[
+                  Color.fromARGB(255, 43, 108, 79)
+                ],
+                // legend: const Legend(isVisible: true),
+                series: <LineSeries<C02E, String>>[
+                  LineSeries<C02E, String>(
+                    dataSource: <C02E>[
+                      C02E('0000', 0),
+                      C02E('0400', 0),
+                      C02E('0800', 50),
+                      C02E('1200', 100),
+                      C02E('1600', 200),
+                      C02E('2000', 150),
+                      C02E('2400', 0)
+                    ],
+                    yValueMapper: (C02E c02e, _) => c02e.c02e,
+                    xValueMapper: (C02E c02e, _) => c02e.time,
+
+                    dataLabelSettings: const DataLabelSettings(isVisible: true),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Current OEE',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 43, 108, 79)
+                    )
+                  ),
+                  // Row(
+                  //   children: [
+                  //     LinearProgressIndicator(
+                  //       minHeight: 20,
+                  //       color: Colors.grey,
+                  //       valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                  //       value: 20,
+                  //     ),
+                  //   ],
+                  // ),
+                ],
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -92,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                         },
                         icon: Image.asset('assets/images/controls_icon.png'),
                       ),
-                      Text(
+                      const Text(
                         "CONTROLS",
                         style: TextStyle(fontSize: 10),
                       ),
