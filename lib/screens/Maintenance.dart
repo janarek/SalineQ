@@ -126,9 +126,9 @@ class _MaintenancePageState extends State<MaintenancePage> {
                     ),
                     const LinearProgressIndicator(
                       minHeight: 20,
-                      color: Colors.grey,
+                      backgroundColor: Color.fromARGB(255, 254, 203, 127),
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-                      value: 20,
+                      value: 0.9,
                     ),
                     Container(
                       width: 250,
@@ -179,8 +179,8 @@ class _MaintenancePageState extends State<MaintenancePage> {
                     const LinearProgressIndicator(
                       minHeight: 20,
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
-                      color: Colors.grey,
-                      value: 20,
+                      backgroundColor: Color.fromARGB(255, 245, 255, 140),
+                      value: 0.9,
                     ),
                     Container(
                       width: 250,
@@ -280,9 +280,9 @@ class _MaintenancePageState extends State<MaintenancePage> {
                                       width: 80,
                                       child: const CircularProgressIndicator(
                                         strokeWidth: 12,
-                                        value: 1,
+                                        value: 0.9,
                                         valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-                                        color: Colors.grey,
+                                        backgroundColor: Color.fromARGB(255, 254, 203, 127),
                                       ),
                                     ),
                                   ),
@@ -322,9 +322,9 @@ class _MaintenancePageState extends State<MaintenancePage> {
                                       width: 80,
                                       child: const CircularProgressIndicator(
                                         strokeWidth: 12,
-                                        value: 1,
+                                        value: 0.9,
                                         valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                                        color: Colors.grey,
+                                        backgroundColor: Color.fromARGB(255, 145, 195, 255),
                                       ),
                                     ),
                                   ),
@@ -364,9 +364,9 @@ class _MaintenancePageState extends State<MaintenancePage> {
                                       width: 80,
                                       child: const CircularProgressIndicator(
                                         strokeWidth: 12,
-                                        value: 1,
+                                        value: 0.9,
                                         valueColor: AlwaysStoppedAnimation<Color>(Colors.purple),
-                                        color: Colors.grey,
+                                        backgroundColor: Color.fromARGB(255, 209, 142, 253),
                                       ),
                                     ),
                                   ),
@@ -432,7 +432,7 @@ class _MaintenancePageState extends State<MaintenancePage> {
                                   ),
                                   const Align(
                                     alignment: Alignment.center,
-                                    child: Text('90%',
+                                    child: Text('100%',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold, 
                                         fontSize: 18,
@@ -474,7 +474,7 @@ class _MaintenancePageState extends State<MaintenancePage> {
                                   ),
                                   const Align(
                                     alignment: Alignment.center,
-                                    child: Text('90%',
+                                    child: Text('100%',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold, 
                                         fontSize: 18,
@@ -516,7 +516,7 @@ class _MaintenancePageState extends State<MaintenancePage> {
                                   ),
                                   const Align(
                                     alignment: Alignment.center,
-                                    child: Text('90%',
+                                    child: Text('100%',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold, 
                                         fontSize: 18,

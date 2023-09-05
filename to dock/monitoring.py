@@ -1,7 +1,5 @@
 import sys
 from opcua import Client
-from opcua import ua
-from time import sleep
 from flask import Flask
 
 sys.path.insert(0, "..")
