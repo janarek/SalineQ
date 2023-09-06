@@ -71,6 +71,7 @@ flutter:
     - assets/images/orange_j.png
     - assets/images/salineq_logo.png
     - assets/images/soda_b.png
+    - assets/images/default_pp.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
