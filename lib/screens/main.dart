@@ -1,7 +1,5 @@
 // import 'dart:convert';
 // import 'package:http/http.dart';
-import 'Login.dart';
-import 'SignUp.dart';
 import 'Home.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //change to Home(); to test with data
-    return const MaterialApp(home: SignupPage());
+    return const MaterialApp(home: Home());
 
     // return FutureBuilder(
     //   future: getData(),
