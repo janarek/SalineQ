@@ -1,6 +1,7 @@
+import json
 import sys
 from opcua import Client
-from flask import Flask
+from flask import Flask, request
 
 sys.path.insert(0, "..")
 
@@ -34,7 +35,7 @@ def getOffsetData():
 
 @app.route('/getMonitorData', methods=['GET'])
 def getMonitorData():
-    
+
     client.connect()
 
     # Water Percentage data
@@ -103,7 +104,7 @@ def getMonitorData():
 
 @app.route('/getControlsData', methods=['GET'])
 def getControlsData():
-    #client = Client("opc.tcp://admin@192.168.2.1:4840") #connect using a user
+    # client = Client("opc.tcp://admin@192.168.2.1:4840") #connect using a user
     client.connect()
 
     # Get UA nodes in root
@@ -135,6 +136,20 @@ def getControlsData():
         "electricity":electricity,
         "temperature":temperature,
     }
+
+
+@app.route('/setControlData', methods=['POST'])
+def setControlsData():
+    
+    dataName = list(request.json.keys())[0]
+    value = request.json[dataName]
+
+    var = client.get_node("ns=4;s=|var|Turck/ARM/WinCE TV.Application.GVL_Virtual_Tags.S_" + dataName)
+
+    print(value)
+    var.set_value(value)
+    
+    return { "msg": "Success" }
 
 if __name__ == "__main__":
     app.run(debug=True) 
