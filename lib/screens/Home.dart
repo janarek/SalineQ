@@ -293,7 +293,7 @@ class _HomePageState extends State<HomePage> {
 
   void navToControls(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => Controls()));
+        .push(MaterialPageRoute(builder: (context) => ControlsPage()));
   }
 
   void navToMaintenance(BuildContext context) {

@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //change to Home(); to test with data
-    return const MaterialApp(home: SignupPage());
+    return const MaterialApp(home: HomePage());
 
     // return FutureBuilder(
     //   future: getData(),
