@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
-import 'Home.dart';
-import 'Maintenance.dart';
-import 'Monitor.dart';
-import 'Notifications.dart';
+import 'package:salineq/utils/navigation.dart';
+import 'package:salineq/widgets/bottom_nav_bar.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({ Key? key }) : super(key: key);
@@ -252,73 +248,7 @@ class _SettingsPageState extends State<SettingsPage> {
             )
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: Color(0xff3d9970),
-          child: Container(
-            height: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: IconButton(
-                    icon: Icon(Icons.home),
-                    tooltip: 'Home Page',
-                    onPressed: () {navToHome(context);},
-                    color: Color.fromARGB(255, 43, 108, 79),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: IconButton(
-                    icon: Icon(Icons.query_stats),
-                    tooltip: 'Monitoring Page',
-                    onPressed: () {navToMonitor(context);},
-                    color: Color.fromARGB(255, 43, 108, 79),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: IconButton(
-                    icon: Icon(Icons.handyman),
-                    tooltip: 'Maintenance Page',
-                    onPressed: () {navToMaintenance(context);},
-                    color: Color.fromARGB(255, 43, 108, 79),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: IconButton(
-                    icon: Icon(Icons.settings),
-                    tooltip: 'Settings Page',
-                    onPressed: () {setState(() {});},
-                    color: Color.fromARGB(255, 255, 255, 255),
-
-                  ),
-                ),
-              ]
-            ),
-          ),
-        ),
+        bottomNavigationBar: BottomNavBar(),
       );
-  }
-
-  void navToMaintenance(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MaintenancePage()));
-  }
-
-  void navToHome(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
-  }
-
-  void navToMonitor(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MonitorPage()));
-  }
-
-  void navToNotification(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationPage()));
   }
 }

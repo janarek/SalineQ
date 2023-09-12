@@ -1,104 +1,93 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:http/http.dart';
+import 'package:salineq/utils/connections.dart';
+import 'package:salineq/widgets/bottom_nav_bar.dart';
+import 'package:salineq/widgets/top_nav_bar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import 'Home.dart';
-import 'Maintenance.dart';
-import 'Notifications.dart';
-import 'Settings.dart';
-
 class Monitor extends StatelessWidget {
-  const Monitor({Key? key}) : super(key: key);
 
-  Stream<Map<String, dynamic>> getData() async* {
-    while (true) {
-      Response response = await get(Uri(
-          scheme: "http", host: '10.0.2.2', port: 5000, path: "/getHomeData"));
-      Map body = json.decode(response.body);
-      Map<String, dynamic> data =
-          body.map<String, dynamic>((key, value) => MapEntry("$key", value));
-      yield data;
-      await Future.delayed(const Duration(seconds: 7));
-    }
-  }
+  const Monitor({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return StreamBuilder(
-        stream: getData(),
+        stream: getMonitorData(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+
           if (snapshot.connectionState != ConnectionState.active) {
+
             // Return what ur user sees when loading
             return const Center(child: CircularProgressIndicator());
+          
           } else if (snapshot.hasError) {
+
             // Return what ur user sees when an error occurs
-            return Center(
-                child: Text("Something went wrong. ${snapshot.error}"));
+            return Center(child: Text("Something went wrong. ${snapshot.error}"));
+          
           } else if (snapshot.hasData) {
+
+            print(snapshot.data);
+
             // Return ur screen
-            return HomePage();
+            return MonitorPage(
+              data: snapshot.data
+            );
+          
           } else {
+
             return Text('No Data found');
+          
           }
         });
+  
   }
+
 }
 
 class SalineProduced {
+
   final int timeTaken;
   final int totalProduced1;
   final int totalProduced2;
-  SalineProduced(this.timeTaken, this.totalProduced1, this.totalProduced2);
+
+  const SalineProduced(this.timeTaken, this.totalProduced1, this.totalProduced2);
+
 }
 
 class MonitorPage extends StatefulWidget {
-  const MonitorPage({ Key? key }) : super(key: key);
+
+  const MonitorPage({
+    Key? key,
+    required this.data
+  }) : super(key: key);
+
+  final Map<String, dynamic> data;
 
   @override
   State<MonitorPage> createState() => _MonitorPageState();
+
 }
 
 class _MonitorPageState extends State<MonitorPage> {
+
   double saltPercentage = 10;
   final List<SalineProduced> salineProduced = <SalineProduced>[
-    SalineProduced(30, 100, 150),
-    SalineProduced(60, 150, 50),
-    SalineProduced(90, 90, 40),
-    SalineProduced(120, 180, 250),
-    SalineProduced(150, 300, 90),
-    SalineProduced(180, 350, 140),
-    SalineProduced(210, 280, 300),
-    SalineProduced(240, 70, 120),
+    const SalineProduced(30, 100, 150),
+    const SalineProduced(60, 150, 50),
+    const SalineProduced(90, 90, 40),
+    const SalineProduced(120, 180, 250),
+    const SalineProduced(150, 300, 90),
+    const SalineProduced(180, 350, 140),
+    const SalineProduced(210, 280, 300),
+    const SalineProduced(240, 70, 120),
   ];
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {Navigator.pop(context);},
-            tooltip: 'Go back',
-            iconSize: 30,
-            padding: EdgeInsets.only(left:15),
-          ),
-          title: Image.asset('assets/images/bw_salineq_logo.png', fit: BoxFit.cover, height: 55),
-          centerTitle: true,
-          toolbarHeight: 70,
-          actions: [
-            IconButton(
-              onPressed: () {navToNotification(context);},
-              icon: Icon(Icons.notifications),
-              tooltip: 'Notifications',
-              iconSize: 30,
-              padding: EdgeInsets.only(right: 15),
-            )
-          ],
-          backgroundColor: Color.fromARGB(205, 60, 60, 60),
-        ),
+        appBar: const TopNavbar(),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Container(
@@ -111,12 +100,12 @@ class _MonitorPageState extends State<MonitorPage> {
                 Container(
                   width: 300,
                   margin: const EdgeInsets.only(top: 15),
-                  child: const LinearProgressIndicator(
+                  child: LinearProgressIndicator(
                     minHeight: 20,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                     backgroundColor: Colors.orange,
                     color: Colors.orange,
-                    value: 0.9,
+                    value: widget.data["water_percent"],
                   ),
                 ),
                 Container(
@@ -135,7 +124,7 @@ class _MonitorPageState extends State<MonitorPage> {
                               width: 20,
                               color: Colors.blue,
                             ),
-                            Text('WATER (90%)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),),
+                            Text('WATER (${widget.data["water_percent"]}%)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),),
                           ],
                         ),
                       ),
@@ -149,7 +138,7 @@ class _MonitorPageState extends State<MonitorPage> {
                               width: 20,
                               color: Colors.orange,
                             ),
-                            Text('SALT (10%)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),),
+                            Text('SALT (${widget.data["salt_percent"]}%)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),),
                           ],
                         ),
                       ),
@@ -175,7 +164,9 @@ class _MonitorPageState extends State<MonitorPage> {
                         Color.fromARGB(188, 72, 159, 120)),
                     inactiveColor: const Color.fromARGB(144, 96, 205, 156),
                     onChanged: (double svalue) {
+
                       setState(() {
+
                         saltPercentage = svalue;
                       });
                     },
@@ -215,26 +206,26 @@ class _MonitorPageState extends State<MonitorPage> {
                       child: Container(
                         width: 300,
                         margin: const EdgeInsets.only(top:5, bottom: 5),
-                        child: const LinearProgressIndicator(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: LinearProgressIndicator(
+                          // borderRadius: BorderRadius.all(Radius.circular(10)),
                           minHeight: 25,
                           backgroundColor: Color.fromARGB(255, 168, 218, 195),
                           valueColor:
                               AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 43, 108, 79)),
-                          value: 0.9,
+                          value: widget.data["batch_percent"],
                         ),
                       ),
                     ),
                     Container(
                       width: 270,
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('TASK:',
+                          const Text('TASK:',
                             style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
-                          Text('90%',
-                            style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+                          Text('${widget.data["batch_percent"]}%',
+                            style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ]
                       ),
@@ -250,26 +241,26 @@ class _MonitorPageState extends State<MonitorPage> {
                       child: Container(
                         width: 300,
                         margin: const EdgeInsets.only(top:5, bottom: 5),
-                        child: const LinearProgressIndicator(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: LinearProgressIndicator(
+                          // borderRadius: BorderRadius.all(Radius.circular(10)),
                           minHeight: 25,
                           backgroundColor: Color.fromARGB(255, 168, 218, 195),
                           valueColor:
-                              AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 43, 108, 79)),
-                          value: 0.9,
+                              AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 43, 108, 79)),
+                          value: widget.data["energy_consume"],
                         ),
                       ),
                     ),
                     Container(
                       width: 270,
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('ENERGY CONSUMPTION:',
+                          const Text('ENERGY CONSUMPTION:',
                             style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
-                          Text('90%',
-                            style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+                          Text('${widget.data["energy_consume"]}%',
+                            style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ]
                       ),
@@ -286,7 +277,7 @@ class _MonitorPageState extends State<MonitorPage> {
                         width: 300,
                         margin: const EdgeInsets.only(top:5, bottom: 5),
                         child: const LinearProgressIndicator(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          // borderRadius: BorderRadius.all(Radius.circular(10)),
                           minHeight: 25,
                           backgroundColor: Color.fromARGB(255, 168, 218, 195),
                           valueColor:
@@ -321,7 +312,7 @@ class _MonitorPageState extends State<MonitorPage> {
                         width: 300,
                         margin: const EdgeInsets.only(top:5, bottom: 5),
                         child: const LinearProgressIndicator(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          // borderRadius: BorderRadius.all(Radius.circular(10)),
                           minHeight: 25,
                           backgroundColor: Color.fromARGB(255, 168, 218, 195),
                           valueColor:
@@ -421,18 +412,18 @@ class _MonitorPageState extends State<MonitorPage> {
                                     child: Container(
                                       height: 80,
                                       width: 80,
-                                      child: const CircularProgressIndicator(
+                                      child: CircularProgressIndicator(
                                         strokeWidth: 12,
-                                        value: 0.9,
-                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-                                        backgroundColor: Color.fromARGB(255, 187, 187, 187),
+                                        value: widget.data["salt_resource"],
+                                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.grey),
+                                        backgroundColor: const Color.fromARGB(255, 187, 187, 187),
                                       ),
                                     ),
                                   ),
-                                  const Align(
+                                  Align(
                                     alignment: Alignment.center,
-                                    child: Text('90%',
-                                      style: TextStyle(
+                                    child: Text('${widget.data["salt_resource"]}%',
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold, 
                                         fontSize: 18,
                                       )
@@ -463,18 +454,18 @@ class _MonitorPageState extends State<MonitorPage> {
                                     child: Container(
                                       height: 80,
                                       width: 80,
-                                      child: const CircularProgressIndicator(
+                                      child: CircularProgressIndicator(
                                         strokeWidth: 12,
-                                        value: 0.9,
-                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                                        backgroundColor: Color.fromARGB(255, 125, 191, 252),
+                                        value: widget.data["water_resource"],
+                                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                                        backgroundColor: const Color.fromARGB(255, 125, 191, 252),
                                       ),
                                     ),
                                   ),
-                                  const Align(
+                                  Align(
                                     alignment: Alignment.center,
-                                    child: Text('90%',
-                                      style: TextStyle(
+                                    child: Text('${widget.data["water_resource"]}%',
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold, 
                                         fontSize: 18,
                                       )
@@ -505,18 +496,18 @@ class _MonitorPageState extends State<MonitorPage> {
                                     child: Container(
                                       height: 80,
                                       width: 80,
-                                      child: const CircularProgressIndicator(
+                                      child: CircularProgressIndicator(
                                         strokeWidth: 12,
-                                        value: 0.9,
-                                        valueColor: AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 222, 21, 169)),
-                                        backgroundColor: Color.fromARGB(255, 227, 156, 220)
+                                        value: widget.data["bottle_resource"],
+                                        valueColor: const AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 222, 21, 169)),
+                                        backgroundColor: const Color.fromARGB(255, 227, 156, 220)
                                       ),
                                     ),
                                   ),
-                                  const Align(
+                                  Align(
                                     alignment: Alignment.center,
-                                    child: Text('90%',
-                                      style: TextStyle(
+                                    child: Text('${widget.data["bottle_resource"]}%',
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold, 
                                         fontSize: 18,
                                       )
@@ -545,72 +536,8 @@ class _MonitorPageState extends State<MonitorPage> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: Color(0xff3d9970),
-          child: Container(
-            height: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: IconButton(
-                    icon: Icon(Icons.home),
-                    tooltip: 'Home Page',
-                    onPressed: () {navToHome(context);},
-                    color: Color.fromARGB(255, 43, 108, 79),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: IconButton(
-                    icon: Icon(Icons.query_stats),
-                    tooltip: 'Monitoring Page',
-                    onPressed: () {setState(() {});},
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: IconButton(
-                    icon: Icon(Icons.handyman),
-                    tooltip: 'Maintenance Page',
-                    onPressed: () {navToMaintenance(context);},
-                    color: Color.fromARGB(255, 43, 108, 79),
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: IconButton(
-                    icon: Icon(Icons.settings),
-                    tooltip: 'Settings Page',
-                    onPressed: () {navToSettings(context);},
-                    color: Color.fromARGB(255, 43, 108, 79),
-
-                  ),
-                ),
-              ]
-            ),
-          ),
-        ),
+        bottomNavigationBar: BottomNavBar(),
       );
-  }
-  void navToSettings(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
-  }
-
-  void navToMaintenance(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MaintenancePage()));
-  }
-
-  void navToHome(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
-  }
-
-  void navToNotification(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationPage()));
+  
   }
 }
