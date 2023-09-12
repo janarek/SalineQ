@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:salineq/utils/connections.dart';
-import 'package:salineq/widgets/bottom_nav_bar.dart';
-import 'package:salineq/widgets/top_nav_bar.dart';
+import '../utils/connections.dart';
+import '../widgets/bottom_nav_bar.dart';
+import '../widgets/top_nav_bar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Monitor extends StatelessWidget {

@@ -27,11 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //change to Home(); to test with data
-<<<<<<< HEAD
     return const MaterialApp(home: HomePage());
-=======
-    return const MaterialApp(home: Home());
->>>>>>> 54b91f80e8f3959e505598e30f9b272bceb2a143
 
     // return FutureBuilder(
     //   future: getData(),

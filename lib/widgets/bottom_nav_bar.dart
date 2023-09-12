@@ -1,5 +1,5 @@
+import '../utils/navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:salineq/utils/navigation.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({ super.key });

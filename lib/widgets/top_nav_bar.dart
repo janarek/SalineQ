@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:salineq/utils/navigation.dart';
+import '../utils/navigation.dart';
 
 class TopNavbar extends StatelessWidget implements PreferredSizeWidget {
 

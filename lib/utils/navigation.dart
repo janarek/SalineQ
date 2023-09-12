@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:salineq/Controls.dart';
-import 'package:salineq/Home.dart';
-import 'package:salineq/Maintenance.dart';
-import 'package:salineq/Monitor.dart';
-import 'package:salineq/Notifications.dart';
-import 'package:salineq/Offset.dart';
-import 'package:salineq/Settings.dart';
+
+import '../screens/Controls.dart';
+import '../screens/Home.dart';
+import '../screens/Maintenance.dart';
+import '../screens/Monitor.dart';
+import '../screens/Notifications.dart';
+import '../screens/Offset.dart';
+import '../screens/Settings.dart';
+
 
 int selected = 0;
 

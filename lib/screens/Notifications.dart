@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:salineq/widgets/bottom_nav_bar.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({ Key? key }) : super(key: key);

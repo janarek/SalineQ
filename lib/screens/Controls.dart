@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:salineq/utils/connections.dart';
-import 'package:salineq/widgets/bottom_nav_bar.dart';
-import 'package:salineq/widgets/top_nav_bar.dart';
+import 'package:carnone/utils/connections.dart';
+import 'package:carnone/widgets/bottom_nav_bar.dart';
+import 'package:carnone/widgets/top_nav_bar.dart';
 
 class Controls extends StatelessWidget {
 
@@ -453,31 +453,4 @@ class _ControlsPageState extends State<ControlsPage> {
     );
   
   }
-
-<<<<<<< HEAD
-  void navToSettings(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => SettingsPage()));
-  }
-
-  void navToMonitor(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => MonitorPage()));
-  }
-
-  void navToHome(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
-  }
-
-  void navToMaintenance(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => MaintenancePage()));
-  }
-
-  void navToNotification(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => NotificationPage()));
-  }
-=======
->>>>>>> 54b91f80e8f3959e505598e30f9b272bceb2a143
 }

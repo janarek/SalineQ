@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:salineq/utils/connections.dart';
-import 'package:salineq/utils/navigation.dart';
-import 'package:salineq/widgets/bottom_nav_bar.dart';
+import '../utils/connections.dart';
+import '../utils/navigation.dart';
+import '../widgets/bottom_nav_bar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Home extends StatelessWidget {
@@ -252,36 +252,33 @@ class _HomePageState extends State<HomePage> {
   
   }
 
-<<<<<<< HEAD
-  void navToControls(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ControlsPage()));
-  }
+  // void navToControls(BuildContext context) {
+  //   Navigator.of(context)
+  //       .push(MaterialPageRoute(builder: (context) => ControlsPage()));
+  // }
 
-  void navToMaintenance(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => MaintenancePage()));
-  }
+  // void navToMaintenance(BuildContext context) {
+  //   Navigator.of(context)
+  //       .push(MaterialPageRoute(builder: (context) => MaintenancePage()));
+  // }
 
-  void navToMonitor(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => MonitorPage()));
-  }
+  // void navToMonitor(BuildContext context) {
+  //   Navigator.of(context)
+  //       .push(MaterialPageRoute(builder: (context) => MonitorPage()));
+  // }
 
-  void navToOffset(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => OffsetPage()));
-  }
+  // void navToOffset(BuildContext context) {
+  //   Navigator.of(context)
+  //       .push(MaterialPageRoute(builder: (context) => OffsetPage()));
+  // }
 
-  void navToNotification(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => NotificationPage()));
-  }
+  // void navToNotification(BuildContext context) {
+  //   Navigator.of(context)
+  //       .push(MaterialPageRoute(builder: (context) => NotificationPage()));
+  // }
 
-  void navToSettings(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => SettingsPage()));
-  }
-=======
->>>>>>> 54b91f80e8f3959e505598e30f9b272bceb2a143
+  // void navToSettings(BuildContext context) {
+  //   Navigator.of(context)
+  //       .push(MaterialPageRoute(builder: (context) => SettingsPage()));
+  // }
 }

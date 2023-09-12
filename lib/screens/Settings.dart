@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:salineq/utils/navigation.dart';
-import 'package:salineq/widgets/bottom_nav_bar.dart';
+import '../utils/navigation.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({ Key? key }) : super(key: key);
